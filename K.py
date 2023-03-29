@@ -1,6 +1,7 @@
 import copy
 import functools
 import random
+import num
 
 
 class Color:
@@ -207,13 +208,21 @@ class Plateau():
             raise ValueError("Erreur : generation du plateau inposible car la taille est egale a 0")
 
         
-    def enumerai(self):
+    def enumerai(self,size_Y:int = 0,size_X:int = 0):
         """
-        ramplace les case du plateau par ces coordoner
+        crée un plateau avec des case du plateau par ces coordoner
         """
+
+        if 0 in [size_Y, size_X]:
+            size_Y, size_X = self.size_y, self.size_X
+        else:
+            self.size_y, self.size_X = size_Y, size_X
+        
+        self.plateau_contenue =[[" "] * size_X for _ in range(size_Y)]
+
         for y in range(0,self.size_y):
             for x in range(0,self.size_X):
-                self.plateau_contenue[y][x] = str(inverse_num(x,self.size_X)-1) + str(inverse_num(y,self.size_y)-1)
+                self.plateau_contenue[y][x] = str(num.inverse_num(x,self.size_X)-1) + str(num.inverse_num(y,self.size_y)-1)
 
     def copy(self):
         """
@@ -232,7 +241,3 @@ class Plateau():
         for i in self.obeject_in_the_plateau:
             res.append(i.name)
         return res
-
-
-def inverse_num(nb,siz):
-    return siz - nb
